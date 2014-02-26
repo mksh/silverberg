@@ -67,9 +67,9 @@ def prepare(query, params):
 
 def marshal(term):
     if isinstance(term, unicode):
-        return "'%s'" % __escape_quotes(term.encode('utf8'))
+        return __escape_quotes(term.encode('utf8'))
     elif isinstance(term, str):
-        return "'%s'" % __escape_quotes(term)
+        return __escape_quotes(term)
     elif isinstance(term, datetime):
         # If the datetime is naive, then it is considered UTC time and stored. If it is
         # timezone-aware, then its corresponding UTC time is stored
@@ -162,4 +162,7 @@ def decode_bigint(term):
 
 def __escape_quotes(term):
     assert isinstance(term, (str, unicode))
-    return term.replace("\'", "''")
+    if not term.startswith('`') or not term.endswith('`'):
+        return "'%s'" % term.replace("\'", "'")
+    else:
+        return term.replace("`", "")

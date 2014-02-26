@@ -40,6 +40,10 @@ class StatementPreparation(TestCase):
         result = prepare("string :with a colon :with", {})
         self.assertEqual(result, "string :with a colon :with")
 
+    def test_prepare_create_table(self):
+        result = prepare("create table :named", {'named': '`spam_eggs`'})
+        self.assertEqual(result, "create table spam_eggs")
+
 
 class MarshallingUnmarshallingDatetime(TestCase):
     """
