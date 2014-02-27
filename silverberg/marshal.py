@@ -58,10 +58,6 @@ def prepare(query, params):
         return ":%s" % name
 
     new, count = re.subn(_param_re, repl, query)
-
-    if len(params) > count:
-        raise cql.ProgrammingError("More keywords were provided "
-                                   "than parameters")
     return new
 
 
